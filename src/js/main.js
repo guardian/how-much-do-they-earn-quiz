@@ -105,7 +105,7 @@ export function init(el, context, config, mediator) {
 
             d3.selectAll(".amount-box").each(function(d) {
 
-                if (d3.select(this).value()=='') {
+                if (d3.select(this).value == '') {
 
                     d3.select('#quiz-prompt').html('You need to answer all the questions before viewing the results')
 
@@ -148,18 +148,31 @@ export function init(el, context, config, mediator) {
 
         formulate: function() {
 
+            
             app.transit('https://docs.google.com/a/guardian.co.uk/forms/d/1tPxmo15nt_CpidQac9d5n6A6LYwcFx7qXpK_0kbYlZs/formResponse', {
-                "entry.931701662": app.sliders[0].noUiSlider.get(),
-                "entry.55003727": app.sliders[1].noUiSlider.get(),
-                "entry.513278287": app.sliders[2].noUiSlider.get(),
-                "entry.144292002": app.sliders[3].noUiSlider.get(),
-                "entry.574180580": app.sliders[4].noUiSlider.get(),
-                "entry.232131579": app.sliders[5].noUiSlider.get(),
-                "entry.1396463126": app.sliders[6].noUiSlider.get(),
-                "entry.769270270": app.sliders[7].noUiSlider.get(),
-                "entry.1214910253": app.sliders[8].noUiSlider.get(),
-                "entry.1391783442": app.sliders[9].noUiSlider.get()
-            }, 'post','hiddenForm');
+                "entry.931701662": document.getElementsByClassName("amount-box")[0].value,
+                "entry.55003727": document.getElementsByClassName("amount-box")[1].value,
+                "entry.513278287": document.getElementsByClassName("amount-box")[2].value,
+                "entry.144292002": document.getElementsByClassName("amount-box")[3].value,
+                "entry.574180580": document.getElementsByClassName("amount-box")[4].value,
+                "entry.232131579": document.getElementsByClassName("amount-box")[5].value,
+                "entry.1396463126": document.getElementsByClassName("amount-box")[6].value,
+                "entry.769270270": document.getElementsByClassName("amount-box")[7].value,
+                "entry.1214910253": document.getElementsByClassName("amount-box")[8].value,
+                "entry.1391783442": document.getElementsByClassName("amount-box")[9].value,
+                "entry.791161495": document.getElementsByClassName("amount-box")[10].value,
+                "entry.1741030491": document.getElementsByClassName("amount-box")[11].value,
+                "entry.759942158": document.getElementsByClassName("amount-box")[12].value,
+                "entry.1900681485": document.getElementsByClassName("amount-box")[13].value,
+                "entry.821059558": document.getElementsByClassName("amount-box")[14].value,
+                "entry.1599655770": document.getElementsByClassName("amount-box")[15].value,
+                "entry.635215666": document.getElementsByClassName("amount-box")[16].value,
+                "entry.1588745032": document.getElementsByClassName("amount-box")[17].value,
+                "entry.1265338617": document.getElementsByClassName("amount-box")[18].value,
+                "entry.564887023": document.getElementsByClassName("amount-box")[19].value,
+                "entry.955565170": document.getElementsByClassName("amount-box")[20].value,
+                "entry.639595039": document.getElementsByClassName("amount-box")[21].value,
+            }, 'post','hiddenForm')
         },
 
         makeItLookNice: function(num) {
