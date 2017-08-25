@@ -1,0 +1,128 @@
+.quiz-container {
+
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+
+    width: 100%;
+    max-width: 729px;
+    margin: auto;
+    outline : none;
+
+    .question-container {
+
+        width: 100%;
+        border-bottom-style: dotted;
+        border-bottom-color: #a6a5a3;
+        border-bottom-width: 1px;
+        margin-top: 20px;
+
+        .question-group {
+            width: 100%;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .job-box {
+            width: 100%;
+            display: inline-block;
+        }
+
+        .job-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            background-color: #cbc6c2;
+            margin: auto;
+            margin-bottom: 10px;
+        }
+
+        .header-box {
+            width: 100%;
+            padding-bottom: 10px;
+            display: inline-block;
+            font-family: "Guardian Egyptian Web";
+            color: #005689;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .question-box {
+            display: inline-block;
+            width: 100%;
+            float: left;
+            font-family: "Guardian Egyptian Web";
+            font-weight: 400;
+            vertical-align: top;
+            padding-right: 10px;
+            line-height: 1.4rem;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .answer-box {
+            width: calc(100% - 160px);
+            float: left;
+        }
+
+        .amount-box {
+            width: 130px;
+            height: 30px;
+            margin-right: 10px;
+            border-radius: 30px;
+            float: right;
+            text-align: right;
+            line-height: 30px;
+            font-size: 1.4rem;
+            font-family: "Guardian Egyptian Web";
+            color: white;
+            background-color: #005689;
+        }
+
+        .box-divider {
+            width: 100%;
+            height: 20px;
+        }
+
+        .standard-box {
+            width: 120px;
+            height: 30px;
+            margin-left: 10px;
+            float: left;
+            line-height: 30px;
+            font-size: 0.9rem;
+            font-family: "Guardian Agate Sans 1 Web";
+            font-weight: 400;
+        }
+
+    }
+
+    #quiz-prompt {
+        box-sizing: border-box;
+        padding-top: 20px;
+        width: 100%;
+        color: red;
+        text-align: center;
+        font-family: "Guardian Agate Sans 1 Web";
+        font-weight: 400;
+    }
+
+    #quiz-submit {
+        width: 300px;
+        height: 40px;
+        border-radius: 20px;
+        margin: auto;
+        text-align: center;
+        font-family: "Guardian Egyptian Web";
+        background-color: #005689;
+        line-height: 40px;
+        margin-top: 20px;
+        color: white;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+
+}
