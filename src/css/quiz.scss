@@ -32,9 +32,13 @@
             width: 80px;
             height: 80px;
             border-radius: 40px;
-            background-color: #cbc6c2;
             margin: auto;
             margin-bottom: 10px;
+            background-size:70% 70%;
+            -o-background-size: 70% 70%;
+            -webkit-background-size: 70% 70%;
+            background-repeat: no-repeat;
+            background-position: center; 
         }
 
         .header-box {

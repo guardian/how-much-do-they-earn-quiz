@@ -33,11 +33,11 @@ export function init(el, context, config, mediator) {
 
             app.database.forEach( (item, index)  => {
 
-                if (index < 5) {
+                if (index < 11) {
 
                     html += '<div class="question-container">';
 
-                    html += '<div class="job-box"><div class="job-image"></div></div>';
+                    html += '<div class="job-box"><div class="job-image" style="background-color: ' + item.background + ';background-image: url(' + config.assetPath + '/assets/imgs/' + item.img + ');"></div></div>';
 
                     html += '<div class="header-box">' + item.job + '</div>';
 
@@ -78,7 +78,7 @@ export function init(el, context, config, mediator) {
                     step: 1,
                     range: {
                         'min': 0,
-                        'max': 100
+                        'max': 500
                     }
                 });
 
@@ -105,7 +105,7 @@ export function init(el, context, config, mediator) {
 
             d3.selectAll(".amount-box").each(function(d) {
 
-                if (d3.select(this).html()=='') {
+                if (d3.select(this).value()=='') {
 
                     d3.select('#quiz-prompt').html('You need to answer all the questions before viewing the results')
 
@@ -166,12 +166,12 @@ export function init(el, context, config, mediator) {
 
             var digit = parseFloat(num).toFixed()
 
-            var boom = app.range[digit]
+            //var boom = app.range[digit]
 
-            var multiplier = 1000 //(digit < 610) ? 100 : 
-                            //(digit < 810) ? 1000 : 100 * (digit/(1000 - digit)) ;
-            var result = parseFloat(boom).toFixed();
-            //result = result.replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+            var multiplier = 10000
+
+            var result = parseFloat(digit * multiplier).toFixed();
+
             return result
         }
 
