@@ -17,6 +17,13 @@
         border-bottom-width: 1px;
         margin-top: 20px;
 
+        .multiplier-group {
+            width: 100%;
+            height: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
         .question-group {
             width: 100%;
             display: inline-block;
@@ -75,14 +82,13 @@
             width: 130px;
             height: 30px;
             margin-right: 10px;
-            border-radius: 30px;
             float: right;
             text-align: right;
             line-height: 30px;
             font-size: 1.4rem;
             font-family: "Guardian Egyptian Web";
-            color: white;
-            background-color: #005689;
+            color: black;
+            border: 2px solid #767676;
         }
 
         .box-divider {
@@ -91,14 +97,26 @@
         }
 
         .standard-box {
-            width: 120px;
-            height: 30px;
-            margin-left: 10px;
-            float: left;
-            line-height: 30px;
-            font-size: 0.9rem;
+            width: 100%;
+            max-width: 300px;
+            height: 20px;
+            margin: auto;
+            line-height: 20px;
+            font-size: 0.8rem;
             font-family: "Guardian Agate Sans 1 Web";
             font-weight: 400;
+        }
+
+        #viz-container {
+            width: 100%;
+        }
+
+        .visualization-container {
+            width: 100%;
+            height: 0px;
+            padding-bottom: 20%;
+            display: inline-block;
+            margin-bottom: 10px;
         }
 
     }
@@ -130,3 +148,20 @@
 
 
 }
+
+
+
+    .chart text {
+        font: 10px sans-serif;
+    }
+
+    .chart .title {
+        font: 15px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
