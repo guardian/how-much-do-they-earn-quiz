@@ -4,7 +4,6 @@ import embedHTML from './text/embed.html!text'
 import $ from './lib/jquery'
 import * as d3 from 'd3'
 import * as d4 from 'd3-svg-annotation'
-import noUiSlider from './lib/nouislider'
 
 window.init = function init(el, config) {
     iframeMessenger.enableAutoResize();
@@ -28,25 +27,25 @@ window.init = function init(el, config) {
 
         sliders: null,
 
+        humanoids: null,
+
+        amounts: null,
+
         responses: null,
 
         isolated: [],
 
         toggles: null,
 
-        range: [20000,21000,22000,23000,24000,25000,26000,27000,28000,29000,30000,31000,32000,33000,34000,35000,36000,37000,38000,39000,40000,41000,42000,43000,44000,45000,46000,47000,48000,49000,50000,51000,52000,53000,54000,55000,56000,57000,58000,59000,60000,61000,62000,63000,64000,65000,66000,67000,68000,69000,70000,71000,72000,73000,74000,75000,80000,90000,100000,110000,120000,130000,140000,150000,160000,170000,180000,190000,200000,210000,220000,230000,240000,250000,300000,350000,400000,450000,500000,600000,700000,800000,900000,1000000,1500000,2000000,2500000,3000000,3500000,4000000,4500000,5000000,6000000,7000000,8000000,9000000,10000000,20000000,30000000,40000000,50000000,55000000,60000000],
-
         initialize: function() {
 
             var html = '';
-
-            var tally = 0;
 
             app.database.forEach( (item, index)  => {
 
                 app.database[index]["jid"] = index
 
-                if (index < 11) {
+                if (index < 7) {
 
                     html += '<div class="question-container">';
 
@@ -56,61 +55,17 @@ window.init = function init(el, config) {
 
                     html += '<div class="question-group">';
 
-                    html += '<div class="question-box">How much do you think ' + item.job + ' <strong>should</strong> earn annually?</div>';
+                    html += '<div class="question-box">How much do you think ' + item.job + ' <strong>actually</strong> ' + ((index==0)?'earns':'earn') +'?</div>';
 
-                    html += '<div class="multiplier-group">';
-
-                    html += '<div class="standard-box">';
-
-                    html += '<div class="switch-toggle switch-ios">';
-
-                    html += '<input id="one_' + tally + '" name="multiplier_' + tally + '" type="radio" checked value="1000">';
-
-                    html += '<label for="one_' + tally + '" data-id="' + tally + '" data-val="1000" class="multiplier">1000</label>';
-
-                    html += '<input id="ten_' + tally + '" name="multiplier_' + tally + '" type="radio" value="10000">';
-
-                    html += '<label for="ten_' + tally + '" data-id="' + tally + '" data-val="10000" class="multiplier">10,000</label>';
-
-                    html += '<input id="hundred_' + tally + '" name="multiplier_' + tally + '" type="radio" value="100000">';
-
-                    html += '<label for="hundred_' + tally + '" data-id="' + tally + '" data-val="100000" class="multiplier">100,000</label>';
-
-                    html += '<a></a></div></div></div>';
-
-                    tally++
-
-                    html += '<input value class="amount-box" type="number" pattern="[0-9]*"><div class="answer-box"><div class="slider"></div></div>';
+                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="20000000" pattern="[0-9]*"></div>';
 
                     html += '</div><div class="question-group">';
 
-                    html += '<div class="question-box">How much do you think ' + item.job + ' <strong>actually</strong> ' + ((index==0)?'earns':'earn') +'?</div>';
+                    html += '<div class="question-box">How much do you think ' + item.job + ' <strong>should</strong> earn annually?</div>';
 
-                    html += '<div class="multiplier-group">';
-
-                    html += '<div class="standard-box">';
-
-                    html += '<div class="switch-toggle switch-ios">';
-
-                    html += '<input id="one_' + tally + '" name="multiplier_' + tally + '" type="radio" checked value="1000">';
-
-                    html += '<label for="one_' + tally + '" data-id="' + tally + '" data-val="1000" class="multiplier">1000</label>';
-
-                    html += '<input id="ten_' + tally + '" name="multiplier_' + tally + '" type="radio" value="10000">';
-
-                    html += '<label for="ten_' + tally + '" data-id="' + tally + '" data-val="10000" class="multiplier">10,000</label>';
-
-                    html += '<input id="hundred_' + tally + '" name="multiplier_' + tally + '" type="radio" value="100000">';
-
-                    html += '<label for="hundred_' + tally + '" data-id="' + tally + '" data-val="100000" class="multiplier">100,000</label>';
-
-                    html += '<a></a></div></div></div>';
-
-                    html += '<input value class="amount-box" type="number" pattern="[0-9]*"><div class="answer-box"><div class="slider"></div></div>';
+                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="20000000" pattern="[0-9]*"></div>';
 
                     html += '</div></div></div>';
-
-                    tally++
 
                 }
 
@@ -119,22 +74,6 @@ window.init = function init(el, config) {
             d3.select('#quiz-container').html(html)
 
             app.scroller()
-
-            d3.selectAll('.multiplier').on("click", function() {
-
-                var target = d3.select(this).attr("data-id")
-                var num = app.sliders[target].noUiSlider.get()
-                var multiplier = d3.select(this).attr("data-val")
-
-                if (num!='0.00') {
-
-                    app.multiplier(num,target,multiplier)
-
-                }
-
-                //console.log(target + ' | ' + num + ' | ' + multiplier)
-
-            });
 
             app.compile();
 
@@ -173,9 +112,11 @@ window.init = function init(el, config) {
 
         compile: function() {
 
-            app.sliders = document.getElementsByClassName('slider');
+            app.amounts = document.getElementsByClassName('amount-box');
 
-            for (var i = 0; i < app.sliders.length; i++) {
+            app.humanoids = document.getElementsByClassName('humanised_number');
+
+            for (var i = 0; i < app.amounts.length; i++) {
 
                 let obj = {}
 
@@ -185,24 +126,23 @@ window.init = function init(el, config) {
 
                 app.isolated.push(obj)
 
-                noUiSlider.create(app.sliders[i], {
-                    start: 0,
-                    step: 1,
-                    range: {
-                        'min': 0,
-                        'max': 500
+                document.getElementsByClassName("amount-box")[target].oninput = function() {
+
+                    var max = parseInt($(this).attr('max'));
+
+                    if (document.getElementsByClassName("amount-box")[target].value > max) {
+                        document.getElementsByClassName("amount-box")[target].value = max;
                     }
-                });
 
-                app.sliders[i].noUiSlider.on('slide', function( values, handle, unencoded, tap, positions ) {
+                    var isNumber =  /^\d+$/.test(document.getElementsByClassName("amount-box")[target].value);
 
-                    let amounts = document.getElementsByClassName("amount-box")[target];
-                    amounts.value = app.makeItLookNice(values[0],target);
+                    if (isNumber==false) {
+                        document.getElementsByClassName("amount-box")[target].value = ''
+                    }
 
-                });
+                    let amounts = document.getElementsByClassName("humanised_number")[target];
+                    amounts.innerHTML = '$' + app.formatValue(document.getElementsByClassName("amount-box")[target].value);
 
-                document.getElementsByClassName("amount-box")[target].onchange = function() {
-                    console.log("Detect change like a gangsta")
                 };
 
             }
@@ -233,18 +173,6 @@ window.init = function init(el, config) {
 
                     app.isolated[i]["estimate"] = checklist[i].value
 
-                    var target = (i%2 == 0) ? Math.floor((i+1) / 2) : Math.floor(i / 2)
-
-                    if (i%2 == 0) {
-
-                        app.database[target]["fairpay"] = checklist[i].value
-
-                    } else {
-
-                        app.database[target]["prediction"] = checklist[i].value
-
-                    }
-
                 }
             }
 
@@ -252,9 +180,10 @@ window.init = function init(el, config) {
 
                 app.formulate()
 
-            }
+            } else {
 
-            
+                app.preview()
+            }
 
         },
 
@@ -287,30 +216,34 @@ window.init = function init(el, config) {
         formulate: function() {
 
             d3.select('#quiz-submit').style('display','none')
+
+            d3.select('#loading-container').style('display','block')
+
+            document.getElementById('loading-container').scrollIntoView();
             
             app.transit('https://docs.google.com/a/guardian.co.uk/forms/d/1tPxmo15nt_CpidQac9d5n6A6LYwcFx7qXpK_0kbYlZs/formResponse', {
+
                 "entry.931701662": document.getElementsByClassName("amount-box")[0].value,
                 "entry.55003727": document.getElementsByClassName("amount-box")[1].value,
+
                 "entry.513278287": document.getElementsByClassName("amount-box")[2].value,
                 "entry.144292002": document.getElementsByClassName("amount-box")[3].value,
+
                 "entry.574180580": document.getElementsByClassName("amount-box")[4].value,
                 "entry.232131579": document.getElementsByClassName("amount-box")[5].value,
+
                 "entry.1396463126": document.getElementsByClassName("amount-box")[6].value,
                 "entry.769270270": document.getElementsByClassName("amount-box")[7].value,
+
                 "entry.1214910253": document.getElementsByClassName("amount-box")[8].value,
                 "entry.1391783442": document.getElementsByClassName("amount-box")[9].value,
+
                 "entry.791161495": document.getElementsByClassName("amount-box")[10].value,
                 "entry.1741030491": document.getElementsByClassName("amount-box")[11].value,
+
                 "entry.759942158": document.getElementsByClassName("amount-box")[12].value,
                 "entry.1900681485": document.getElementsByClassName("amount-box")[13].value,
-                "entry.821059558": document.getElementsByClassName("amount-box")[14].value,
-                "entry.1599655770": document.getElementsByClassName("amount-box")[15].value,
-                "entry.635215666": document.getElementsByClassName("amount-box")[16].value,
-                "entry.1588745032": document.getElementsByClassName("amount-box")[17].value,
-                "entry.1265338617": document.getElementsByClassName("amount-box")[18].value,
-                "entry.564887023": document.getElementsByClassName("amount-box")[19].value,
-                "entry.955565170": document.getElementsByClassName("amount-box")[20].value,
-                "entry.639595039": document.getElementsByClassName("amount-box")[21].value,
+
             }, 'post','hiddenForm')
         },
 
@@ -331,6 +264,8 @@ window.init = function init(el, config) {
 
                     app.responses = resp;
 
+                    app.resizer()
+
                     app.assemble()
 
                 }
@@ -339,16 +274,27 @@ window.init = function init(el, config) {
 
         },
 
+        resizer: function() {
+
+            $(window).resize(function() {
+                clearTimeout($.data(this, 'resizeTimer'));
+                $.data(this, 'resizeTimer', setTimeout(function() {
+                    app.assemble()
+                }, 200));
+            });
+
+        },
+
         assemble: function() {
 
             // Request the data
-            var html = '';
+            var html = "<p>Here, you can see your <span class='magenta'>guess or suggestion</span> against the <span class='dark_purple'>actual average salary</span> for that job, based on on figures from the ATO for 2014-15. You can also see how it compares with other <span class='light_blue'>readers' responses</span>. Smaller circles indicate fewer responses, with all responses rounded to the nearest 1000.</p>";
 
             var tally = 0;
 
             app.database.forEach( (item, index)  => {
 
-                if (index < 11) {
+                if (index < 7) {
 
                     html += '<div class="question-container">';
 
@@ -358,7 +304,7 @@ window.init = function init(el, config) {
 
                     html += '<div class="question-group">';
 
-                    html += '<div class="question-box">How much should ' + item.job + ' earn annually?</div>';
+                    html += '<div class="question-box">How much do ' + item.job + ' earn annually?</div>';
 
                     html += '<div id="viz_' + tally + '" class="visualization-container"></div>';
 
@@ -366,7 +312,7 @@ window.init = function init(el, config) {
 
                     tally++
 
-                    html += '<div class="question-box">How much do ' + item.job + ' really earn annually?</div>';
+                    html += '<div class="question-box">How much should ' + item.job + ' really earn annually?</div>';
 
                     html += '<div id="viz_' + tally + '" class="visualization-container"></div>';
 
@@ -380,14 +326,30 @@ window.init = function init(el, config) {
 
             d3.select('#viz-container').html(html)
 
-            document.getElementById('viz-container').scrollIntoView();
-
             app.vizualize();
 
 
         },
 
+        preview: function() {
+
+            var temp = []
+
+            for (var i = 0; i < 14; i++) {
+                var obj = {}
+                obj["estimate"] = 100000
+                obj["id"] = i
+                temp.push(obj)
+            }
+
+            app.isolated = temp
+            app.prepare()
+
+        },
+
         vizualize: function() {
+
+            d3.select('#loading-container').style('display','none')
 
             var questions = ["Question_1a","Question_1b",
                     "Question_2a","Question_2b",
@@ -404,7 +366,7 @@ window.init = function init(el, config) {
             var payslips = [0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11]
 
             var width = document.querySelector("#viz-container").getBoundingClientRect().width, 
-            height = 150, //width / 100 * 20, 
+            height = 150,
             centre = height / 2, padding = 2, margin = 40;
 
             var viz = document.getElementsByClassName('visualization-container');
@@ -425,8 +387,6 @@ window.init = function init(el, config) {
 
                 let desc = app.database[reality].job
 
-                let labelX = 'X';
-                let labelY = 'Y';
                 let svg = d3.select("#viz_"+target)
                     .append('svg')
                     .attr('class', 'chart')
@@ -451,12 +411,13 @@ window.init = function init(el, config) {
 
                 (pay >= xMax) ? xMax = pay : '' ;
 
-                console.log(desc + ' | '  + xMin +   ' | '  +  xMax +   ' | '  +  pay +   ' | '  +  estimate)
-                
+                //console.log(desc + ' | '  + xMin +   ' | '  +  xMax +   ' | '  +  pay +   ' | '  +  estimate)
 
                 let xRange = xMax - xMin;
 
-                let median = xRange / 2
+                var totals = data.map( (value) => { return value.count });
+
+                var total = totals.reduce( (a, b) => { return a + b; }, 0);
                                     
                 let x = d3.scaleLinear() //d3.scale.linear()
                     .domain([xMin - (xRange * .05), xMax + (xRange * .05)])
@@ -468,17 +429,33 @@ window.init = function init(el, config) {
 
                 let scale = d3.scaleSqrt() //d3.scale.sqrt()
                     .domain([d3.min(data, function (d) { return d.count; }), d3.max(data, function (d) { return d.count; })])
-                    .range([1,9]);
+                    .range(ranger(total));
 
                 let opacity = d3.scaleSqrt() //d3.scale.sqrt()
                     .domain([d3.min(data, function (d) { return d.count; }), d3.max(data, function (d) { return d.count; })])
-                    .range([.01, .2]);
+                    .range(render(total));
+
+
+                function ranger(x) {
+
+                    return (x > 1000) ? [1,9] : [5,9]
+
+                }  
+
+
+                function render(x) {
+
+                    return (x > 1000) ? [.01, .2] :
+                        (x > 100) ? [.02, .3] : [0.3, 0.4]
+
+                }  
 
                 // V3
                 //let xAxis = d3.svg.axis().scale(x).orient("bottom");
 
                 let xAxis = d3.axisBottom()
                     .scale(x)
+                    .ticks((width < 500) ? 2 : 10)
                     .tickFormat (function (d) { return app.formatValue(d) })
                 
                 svg.append("g")
@@ -492,25 +469,29 @@ window.init = function init(el, config) {
                         .style("text-anchor", "end")
                         .style("font-size", "0.7px")
 
-                // Set the average
-                svg.append("line")
-                    .attr("x1", () => { return x(average) })
-                    .attr("y1", (height/3) - 50)
-                    .attr("x2", () => { return x(average) })
-                    .attr("y2", (height/3) + 50)
-                    .attr("stroke", "#b5b2af")
-                    .attr("stroke-width", "1")
-                    .attr("stroke-dasharray","2,1")
 
-                svg.append("text")
-                    .attr("x", () => { return x(average) })
-                    .attr("y", (height/3) + 60)
-                    .text("Average")
-                    .attr("text-anchor","middle")
+                 //d3.max(data, function (d) { return d.count; })
 
+                if (total > 5) {
 
+                    // Display the average if we have enough responses
+                    svg.append("line")
+                        .attr("x1", () => { return x(average) })
+                        .attr("y1", (height/3) - 50)
+                        .attr("x2", () => { return x(average) })
+                        .attr("y2", (height/3) + 50)
+                        .attr("stroke", "#b5b2af")
+                        .attr("stroke-width", "1")
+                        .attr("stroke-dasharray","2,1")
 
-                 
+                    svg.append("text")
+                        .attr("x", () => { return x(average) })
+                        .attr("y", (height/3) + 60)
+                        .text("Response average: " + app.humanize(average))
+                        .attr("text-anchor","middle")
+
+                }
+
                 svg.selectAll("circle")
                     .data(data)
                     .enter()
@@ -540,7 +521,7 @@ window.init = function init(el, config) {
                     x: x(estimate),
                     y: height/3,
                     dy: -30,
-                    dx: (estimate < median) ? 30 : -30,
+                    dx: (x(estimate) < (width/2)) ? 30 : -30,
                 }]
 
                 let makeAnnotations1 = d4.annotation()
@@ -561,7 +542,7 @@ window.init = function init(el, config) {
 
                 let notes2 = [{
                     note: {
-                      label: "Actual salary: " + app.humanize(pay),
+                      label: "Actual average salary: " + app.humanize(pay),
                       wrap: 190
                     },
                     subject: {
@@ -570,7 +551,7 @@ window.init = function init(el, config) {
                     x: x(pay),
                     y: height/3,
                     dy: 30,
-                    dx: (pay < median) ? 30 : -30
+                    dx: (x(pay) < (width/2)) ? 30 : -30
                 }]
 
                 let makeAnnotations2 = d4.annotation()
@@ -581,45 +562,14 @@ window.init = function init(el, config) {
                     .attr("class", "annotation-group first")
                     .call(makeAnnotations2)
 
-
-                /*
-                svg.append("circle")
-                    .attr("cx", () => { return x(average); })
-                    .attr("cy", height/3)
-                    .attr("r", 10)
-                    .attr("fill", "#35a4e6")
-
-                let notes3 = [{
-                    note: {
-                      label: "Average answer: " + app.humanize(average),
-                      wrap: 190
-                    },
-                    subject: {
-                      radius: 10
-                    },
-                    x: x(average),
-                    y: height/3,
-                    dy: 15,
-                    dx: (average < median) ? 15 : -15
-                }]
-
-                let makeAnnotations3 = d4.annotation()
-                    .type(d4.annotationCalloutCircle)
-                    .annotations(notes3)
-
-                svg.append("g")
-                    .attr("class", "annotation-group first")
-                    .call(makeAnnotations3)
-                    */
-
             }
 
         },
 
         formatValue: function(num) {
 
-            return (num > 999999) ? num / 1000000 + 'm' :
-                (num > 999) ? num / 1000 + 'k' : num
+            return (num > 999999) ? parseFloat(num / 1000000).toFixed(1) + 'm' :
+                (num > 999) ? parseFloat(num / 1000).toFixed(1) + 'k' : num
 
         },
 
@@ -631,26 +581,23 @@ window.init = function init(el, config) {
 
         makeItLookNice: function(num, target) {
 
-            var digit = parseFloat(num).toFixed()
+            let digit = parseFloat(num).toFixed()
 
-            //var boom = app.range[digit]
+            let toggle = document.getElementsByClassName("switch-toggle")[target];
 
-            var toggle = document.getElementsByClassName("switch-toggle")[target];
-
-            var inputs = toggle.getElementsByTagName('input');
+            let inputs = toggle.getElementsByTagName('input');
 
             let multiplier = 1000
 
-            for (var i = 0; i < inputs.length; ++i) {
+            for (let i = 0; i < inputs.length; ++i) {
 
                 if (inputs[i].checked) {
                   multiplier = inputs[i].value
                 }
 
-              
             }
 
-            var result = parseFloat(digit * multiplier).toFixed();
+            let result = parseFloat(digit * multiplier).toFixed();
 
             return result
         }

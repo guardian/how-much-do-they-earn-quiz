@@ -2,7 +2,7 @@ body,
 figure.interactive {
     margin: 0;
     padding: 0;
-    background-color: #dcdcdc;
+    background-color: #fff;
 }
 
 // Link styles don't exist on the app
@@ -31,28 +31,28 @@ a {
 
     @each $bp in (tablet, desktop, leftCol, wide) {
         @include mq($bp) {
-            max-width: map-get($mq-breakpoints, $bp);
+            /*max-width: map-get($mq-breakpoints, $bp);*/
         }
     }
 }
 
 .interactive-es6-headline {
-	@include fs-headline(5);
+    @include fs-headline(5);
 }
 
 .test-msg {
-	color: #005689;
-	@include fs-textSans(3);
+    color: #005689;
+    @include fs-textSans(3);
 }
 
 .fonts {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	margin-top: 24px;
-	li {
-		margin-bottom: 6px;
-	}
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-top: 24px;
+    li {
+        margin-bottom: 6px;
+    }
 }
 
 .fonts__egyptian { @include fs-headline(3); }
