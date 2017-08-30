@@ -26,10 +26,6 @@ export function init(el, context, config, mediator) {
 
         sliders: null,
 
-        humanoids: null,
-
-        amounts: null,
-
         responses: null,
 
         isolated: [],
@@ -48,7 +44,7 @@ export function init(el, context, config, mediator) {
 
                 app.database[index]["jid"] = index
 
-                if (index < 7) {
+                if (index < 11) {
 
                     html += '<div class="question-container">';
 
@@ -60,15 +56,59 @@ export function init(el, context, config, mediator) {
 
                     html += '<div class="question-box">How much do you think ' + item.job + ' <strong>should</strong> earn annually?</div>';
 
-                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" pattern="[0-9]*"></div>';
+                    html += '<div class="multiplier-group">';
+
+                    html += '<div class="standard-box">';
+
+                    html += '<div class="switch-toggle switch-ios">';
+
+                    html += '<input id="one_' + tally + '" name="multiplier_' + tally + '" type="radio" checked value="1000">';
+
+                    html += '<label for="one_' + tally + '" data-id="' + tally + '" data-val="1000" class="multiplier">1000</label>';
+
+                    html += '<input id="ten_' + tally + '" name="multiplier_' + tally + '" type="radio" value="10000">';
+
+                    html += '<label for="ten_' + tally + '" data-id="' + tally + '" data-val="10000" class="multiplier">10,000</label>';
+
+                    html += '<input id="hundred_' + tally + '" name="multiplier_' + tally + '" type="radio" value="100000">';
+
+                    html += '<label for="hundred_' + tally + '" data-id="' + tally + '" data-val="100000" class="multiplier">100,000</label>';
+
+                    html += '<a></a></div></div></div>';
+
+                    tally++
+
+                    html += '<input value class="amount-box" type="number" pattern="[0-9]*"><div class="answer-box"><div class="slider"></div></div>';
 
                     html += '</div><div class="question-group">';
 
                     html += '<div class="question-box">How much do you think ' + item.job + ' <strong>actually</strong> ' + ((index==0)?'earns':'earn') +'?</div>';
 
-                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" pattern="[0-9]*"></div>';
+                    html += '<div class="multiplier-group">';
+
+                    html += '<div class="standard-box">';
+
+                    html += '<div class="switch-toggle switch-ios">';
+
+                    html += '<input id="one_' + tally + '" name="multiplier_' + tally + '" type="radio" checked value="1000">';
+
+                    html += '<label for="one_' + tally + '" data-id="' + tally + '" data-val="1000" class="multiplier">1000</label>';
+
+                    html += '<input id="ten_' + tally + '" name="multiplier_' + tally + '" type="radio" value="10000">';
+
+                    html += '<label for="ten_' + tally + '" data-id="' + tally + '" data-val="10000" class="multiplier">10,000</label>';
+
+                    html += '<input id="hundred_' + tally + '" name="multiplier_' + tally + '" type="radio" value="100000">';
+
+                    html += '<label for="hundred_' + tally + '" data-id="' + tally + '" data-val="100000" class="multiplier">100,000</label>';
+
+                    html += '<a></a></div></div></div>';
+
+                    html += '<input value class="amount-box" type="number" pattern="[0-9]*"><div class="answer-box"><div class="slider"></div></div>';
 
                     html += '</div></div></div>';
+
+                    tally++
 
                 }
 
@@ -131,11 +171,9 @@ export function init(el, context, config, mediator) {
 
         compile: function() {
 
-            app.amounts = document.getElementsByClassName('amount-box');
+            app.sliders = document.getElementsByClassName('slider');
 
-            app.humanoids = document.getElementsByClassName('humanised_number');
-
-            for (var i = 0; i < app.amounts.length; i++) {
+            for (var i = 0; i < app.sliders.length; i++) {
 
                 let obj = {}
 
@@ -145,11 +183,24 @@ export function init(el, context, config, mediator) {
 
                 app.isolated.push(obj)
 
-                document.getElementsByClassName("amount-box")[target].oninput = function() {
+                noUiSlider.create(app.sliders[i], {
+                    start: 0,
+                    step: 1,
+                    range: {
+                        'min': 0,
+                        'max': 500
+                    }
+                });
 
-                    let amounts = document.getElementsByClassName("humanised_number")[target];
-                    amounts.innerHTML = '$' + app.formatValue(document.getElementsByClassName("amount-box")[target].value);
+                app.sliders[i].noUiSlider.on('slide', function( values, handle, unencoded, tap, positions ) {
 
+                    let amounts = document.getElementsByClassName("amount-box")[target];
+                    amounts.value = app.makeItLookNice(values[0],target);
+
+                });
+
+                document.getElementsByClassName("amount-box")[target].onchange = function() {
+                    console.log("Detect change like a gangsta")
                 };
 
             }
@@ -180,8 +231,6 @@ export function init(el, context, config, mediator) {
 
                     app.isolated[i]["estimate"] = checklist[i].value
 
-                    /*
-
                     var target = (i%2 == 0) ? Math.floor((i+1) / 2) : Math.floor(i / 2)
 
                     if (i%2 == 0) {
@@ -193,8 +242,6 @@ export function init(el, context, config, mediator) {
                         app.database[target]["prediction"] = checklist[i].value
 
                     }
-
-                    */
 
                 }
             }
@@ -244,42 +291,28 @@ export function init(el, context, config, mediator) {
             document.getElementById('loading-container').scrollIntoView();
             
             app.transit('https://docs.google.com/a/guardian.co.uk/forms/d/1tPxmo15nt_CpidQac9d5n6A6LYwcFx7qXpK_0kbYlZs/formResponse', {
-
                 "entry.931701662": document.getElementsByClassName("amount-box")[0].value,
                 "entry.55003727": document.getElementsByClassName("amount-box")[1].value,
-
                 "entry.513278287": document.getElementsByClassName("amount-box")[2].value,
                 "entry.144292002": document.getElementsByClassName("amount-box")[3].value,
-
                 "entry.574180580": document.getElementsByClassName("amount-box")[4].value,
                 "entry.232131579": document.getElementsByClassName("amount-box")[5].value,
-
                 "entry.1396463126": document.getElementsByClassName("amount-box")[6].value,
                 "entry.769270270": document.getElementsByClassName("amount-box")[7].value,
-
                 "entry.1214910253": document.getElementsByClassName("amount-box")[8].value,
                 "entry.1391783442": document.getElementsByClassName("amount-box")[9].value,
-
                 "entry.791161495": document.getElementsByClassName("amount-box")[10].value,
                 "entry.1741030491": document.getElementsByClassName("amount-box")[11].value,
-
                 "entry.759942158": document.getElementsByClassName("amount-box")[12].value,
                 "entry.1900681485": document.getElementsByClassName("amount-box")[13].value,
-
-                /*
                 "entry.821059558": document.getElementsByClassName("amount-box")[14].value,
                 "entry.1599655770": document.getElementsByClassName("amount-box")[15].value,
-
                 "entry.635215666": document.getElementsByClassName("amount-box")[16].value,
                 "entry.1588745032": document.getElementsByClassName("amount-box")[17].value,
-
                 "entry.1265338617": document.getElementsByClassName("amount-box")[18].value,
                 "entry.564887023": document.getElementsByClassName("amount-box")[19].value,
-
                 "entry.955565170": document.getElementsByClassName("amount-box")[20].value,
                 "entry.639595039": document.getElementsByClassName("amount-box")[21].value,
-                */
-
             }, 'post','hiddenForm')
         },
 
@@ -317,7 +350,7 @@ export function init(el, context, config, mediator) {
 
             app.database.forEach( (item, index)  => {
 
-                if (index < 7) {
+                if (index < 11) {
 
                     html += '<div class="question-container">';
 
@@ -561,8 +594,8 @@ export function init(el, context, config, mediator) {
 
         formatValue: function(num) {
 
-            return (num > 999999) ? parseFloat(num / 1000000).toFixed(1) + 'm' :
-                (num > 999) ? parseFloat(num / 1000).toFixed(1) + 'k' : num
+            return (num > 999999) ? num / 1000000 + 'm' :
+                (num > 999) ? num / 1000 + 'k' : num
 
         },
 
