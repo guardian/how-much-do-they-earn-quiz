@@ -366,8 +366,6 @@ export function init(el, context, config, mediator) {
 
             var viz = document.getElementsByClassName('visualization-container');
 
-            console.log(app.isolated);
-
             for (var i = 0; i < viz.length; i++) {
 
                 let target = i

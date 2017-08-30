@@ -31,7 +31,7 @@ a {
 
     @each $bp in (tablet, desktop, leftCol, wide) {
         @include mq($bp) {
-            /*max-width: map-get($mq-breakpoints, $bp);*/
+            max-width: map-get($mq-breakpoints, $bp);
         }
     }
 }
