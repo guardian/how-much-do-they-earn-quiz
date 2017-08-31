@@ -214,7 +214,7 @@ export function init(el, context, config, mediator) {
 
             d3.select('#loading-container').style('display','block')
 
-            document.getElementById('loading-container').scrollIntoView();
+            //document.getElementById('loading-container').scrollIntoView();
             
             app.transit('https://docs.google.com/a/guardian.co.uk/forms/d/1tPxmo15nt_CpidQac9d5n6A6LYwcFx7qXpK_0kbYlZs/formResponse', {
 
@@ -437,14 +437,14 @@ export function init(el, context, config, mediator) {
 
                 function ranger(x) {
 
-                    return (x > 1000) ? [1,9] : [5,9]
+                    return (x > 1000) ? [3,9] : [5,9]
 
                 }  
 
 
                 function render(x) {
 
-                    return (x > 1000) ? [.01, .2] :
+                    return (x > 1000) ? [.05, .3] :
                         (x > 100) ? [.02, .3] : [0.3, 0.4]
 
                 }  
@@ -569,6 +569,8 @@ export function init(el, context, config, mediator) {
                     .call(makeAnnotations2)
 
             }
+
+            document.getElementById('viz-container').scrollIntoView();
 
         },
 
