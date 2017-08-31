@@ -380,6 +380,8 @@ export function init(el, context, config, mediator) {
 
                 let pay = parseInt(app.database[reality].pay)
 
+                let median = parseInt(app.responses[questions[i]].median)
+
                 let desc = app.database[reality].job
 
                 let svg = d3.select("#viz_"+target)
@@ -400,6 +402,8 @@ export function init(el, context, config, mediator) {
 
                 // Set the X a axis max value
                 let xMax = d3.max(data, function (d) { return d.number; });
+
+                xMax = median * 2;
 
                 // If the users estimate is more than the max value, reset the max value to their estimate
                 (estimate >= xMax) ? xMax = estimate : '' ;
@@ -471,25 +475,25 @@ export function init(el, context, config, mediator) {
 
                     // Display the average if we have enough responses
                     svg.append("line")
-                        .attr("x1", () => { return x(average) })
+                        .attr("x1", () => { return x(median) })
                         .attr("y1", (height/3) - 50)
-                        .attr("x2", () => { return x(average) })
+                        .attr("x2", () => { return x(median) })
                         .attr("y2", (height/3) + 50)
                         .attr("stroke", "#b5b2af")
                         .attr("stroke-width", "1")
                         .attr("stroke-dasharray","2,1")
 
                     svg.append("text")
-                        .attr("x", () => { return x(average) })
+                        .attr("x", () => { return x(median) })
                         .attr("y", (height/3) + 60)
-                        .text("Response average: ")
-                        .attr("text-anchor",(x(average) < (width/2)) ? "start" : "end")
+                        .text("Response median: ")
+                        .attr("text-anchor",(x(median) < (width/2)) ? "start" : "end")
 
                     svg.append("text")
-                        .attr("x", () => { return x(average) })
+                        .attr("x", () => { return x(median) })
                         .attr("y", (height/3) + 70)
-                        .text("$"+app.formatValue(average))
-                        .attr("text-anchor",(x(average) < (width/2)) ? "start" : "end")
+                        .text("$"+app.formatValue(median))
+                        .attr("text-anchor",(x(median) < (width/2)) ? "start" : "end")
 
 
                 }

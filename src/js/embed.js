@@ -386,6 +386,8 @@ window.init = function init(el, config) {
 
                 let pay = parseInt(app.database[reality].pay)
 
+                let median = parseInt(app.responses[questions[i]].median)
+
                 let desc = app.database[reality].job
 
                 let svg = d3.select("#viz_"+target)
@@ -406,6 +408,8 @@ window.init = function init(el, config) {
 
                 // Set the X a axis max value
                 let xMax = d3.max(data, function (d) { return d.number; });
+
+                xMax = median * 2;
 
                 // If the users estimate is more than the max value, reset the max value to their estimate
                 (estimate >= xMax) ? xMax = estimate : '' ;
@@ -477,25 +481,25 @@ window.init = function init(el, config) {
 
                     // Display the average if we have enough responses
                     svg.append("line")
-                        .attr("x1", () => { return x(average) })
+                        .attr("x1", () => { return x(median) })
                         .attr("y1", (height/3) - 50)
-                        .attr("x2", () => { return x(average) })
+                        .attr("x2", () => { return x(median) })
                         .attr("y2", (height/3) + 50)
                         .attr("stroke", "#b5b2af")
                         .attr("stroke-width", "1")
                         .attr("stroke-dasharray","2,1")
 
                     svg.append("text")
-                        .attr("x", () => { return x(average) })
+                        .attr("x", () => { return x(median) })
                         .attr("y", (height/3) + 60)
-                        .text("Response average: ")
-                        .attr("text-anchor",(x(average) < (width/2)) ? "start" : "end")
+                        .text("Response median: ")
+                        .attr("text-anchor",(x(median) < (width/2)) ? "start" : "end")
 
                     svg.append("text")
-                        .attr("x", () => { return x(average) })
+                        .attr("x", () => { return x(median) })
                         .attr("y", (height/3) + 70)
-                        .text(app.humanize(average))
-                        .attr("text-anchor",(x(average) < (width/2)) ? "start" : "end")
+                        .text("$"+app.formatValue(median))
+                        .attr("text-anchor",(x(median) < (width/2)) ? "start" : "end")
 
 
                 }
@@ -520,7 +524,7 @@ window.init = function init(el, config) {
 
                 let notes1 = [{
                     note: {
-                      label: "Your answer: " + app.humanize(estimate),
+                      label: "Your answer: $" + app.formatValue(estimate),
                       wrap: 190
                     },
                     subject: {
@@ -550,7 +554,7 @@ window.init = function init(el, config) {
 
                 let notes2 = [{
                     note: {
-                      label: "Actual average salary: " + app.humanize(pay),
+                      label: "Actual average salary: $" + app.formatValue(pay),
                       wrap: 190
                     },
                     subject: {
@@ -573,6 +577,7 @@ window.init = function init(el, config) {
             }
 
         },
+
 
         preview: function() {
 
