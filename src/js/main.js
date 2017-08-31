@@ -53,15 +53,15 @@ export function init(el, context, config, mediator) {
 
                     html += '<div class="question-group">';
 
-                    html += '<div class="question-box">How much do you think ' + item.job + ' <strong>actually</strong> ' + ((index==0)?'earns':'earn') +'?</div>';
+                    html += '<div class="question-box">How much do you think ' + item.label + ' <strong>actually</strong> ' + ((index==0)?'earns':'earn') +'?</div>';
 
-                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="20000000" pattern="[0-9]*"></div>';
+                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="100000000" pattern="[0-9]*"></div>';
 
                     html += '</div><div class="question-group">';
 
-                    html += '<div class="question-box">How much do you think ' + item.job + ' <strong>should</strong> earn annually?</div>';
+                    html += '<div class="question-box">How much do you think ' + item.label + ' <strong>should</strong> earn annually?</div>';
 
-                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="20000000" pattern="[0-9]*"></div>';
+                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="100000000" pattern="[0-9]*"></div>';
 
                     html += '</div></div></div>';
 
@@ -299,7 +299,7 @@ export function init(el, context, config, mediator) {
 
                     html += '<div class="question-group">';
 
-                    html += '<div class="question-box">How much do ' + item.job + ' earn annually?</div>';
+                    html += '<div class="question-box">How much do ' + item.label + ' earn annually?</div>';
 
                     html += '<div id="viz_' + tally + '" class="visualization-container"></div>';
 
@@ -307,7 +307,7 @@ export function init(el, context, config, mediator) {
 
                     tally++
 
-                    html += '<div class="question-box">How much should ' + item.job + ' really earn annually?</div>';
+                    html += '<div class="question-box">How much should ' + item.label + ' really earn annually?</div>';
 
                     html += '<div id="viz_' + tally + '" class="visualization-container"></div>';
 

@@ -55,15 +55,15 @@ window.init = function init(el, config) {
 
                     html += '<div class="question-group">';
 
-                    html += '<div class="question-box">How much do you think ' + item.job + ' <strong>actually</strong> ' + ((index==0)?'earns':'earn') +'?</div>';
+                    html += '<div class="question-box">How much do you think ' + item.label + ' <strong>actually</strong> ' + ((index==0)?'earns':'earn') +'?</div>';
 
-                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="20000000" pattern="[0-9]*"></div>';
+                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="100000000" pattern="[0-9]*"></div>';
 
                     html += '</div><div class="question-group">';
 
-                    html += '<div class="question-box">How much do you think ' + item.job + ' <strong>should</strong> earn annually?</div>';
+                    html += '<div class="question-box">How much do you think ' + item.label + ' <strong>should</strong> earn annually?</div>';
 
-                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="20000000" pattern="[0-9]*"></div>';
+                    html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="100000000" pattern="[0-9]*"></div>';
 
                     html += '</div></div></div>';
 
@@ -84,14 +84,14 @@ window.init = function init(el, config) {
             var $question_block = $('.question-container');
 
             $question_block.each(function(){
-                if($(this).offset().top > $(window).scrollTop()+$(window).height()*0.75) {
+                if($(this).offset().top > $(window).scrollTop()+$(window).height()*0.9) {
                     $(this).addClass('is-hidden');
                 }
             });
 
             $(window).on('scroll', function(){
                 $question_block.each(function(){
-                    if( $(this).offset().top <= $(window).scrollTop()+$(window).height()*0.75 && $(this).hasClass('is-hidden') ) {
+                    if( $(this).offset().top <= $(window).scrollTop()+$(window).height()*0.9 && $(this).hasClass('is-hidden') ) {
                         $(this).removeClass('is-hidden').addClass('bounce-in');
                     }
                 });
@@ -183,6 +183,7 @@ window.init = function init(el, config) {
             } else {
 
                 app.preview()
+                
             }
 
         },
@@ -304,7 +305,7 @@ window.init = function init(el, config) {
 
                     html += '<div class="question-group">';
 
-                    html += '<div class="question-box">How much do ' + item.job + ' earn annually?</div>';
+                    html += '<div class="question-box">How much do ' + item.label + ' earn annually?</div>';
 
                     html += '<div id="viz_' + tally + '" class="visualization-container"></div>';
 
@@ -312,7 +313,7 @@ window.init = function init(el, config) {
 
                     tally++
 
-                    html += '<div class="question-box">How much should ' + item.job + ' really earn annually?</div>';
+                    html += '<div class="question-box">How much should ' + item.label + ' really earn annually?</div>';
 
                     html += '<div id="viz_' + tally + '" class="visualization-container"></div>';
 
@@ -335,7 +336,7 @@ window.init = function init(el, config) {
 
             var temp = []
 
-            for (var i = 0; i < 14; i++) {
+            for (var i = 0; i < 6; i++) {
                 var obj = {}
                 obj["estimate"] = 100000
                 obj["id"] = i
@@ -343,7 +344,7 @@ window.init = function init(el, config) {
             }
 
             app.isolated = temp
-            app.prepare()
+            app.assemble()
 
         },
 
@@ -487,8 +488,15 @@ window.init = function init(el, config) {
                     svg.append("text")
                         .attr("x", () => { return x(average) })
                         .attr("y", (height/3) + 60)
-                        .text("Response average: " + app.humanize(average))
-                        .attr("text-anchor","middle")
+                        .text("Response average: ")
+                        .attr("text-anchor",(x(average) < (width/2)) ? "start" : "end")
+
+                    svg.append("text")
+                        .attr("x", () => { return x(average) })
+                        .attr("y", (height/3) + 70)
+                        .text(app.humanize(average))
+                        .attr("text-anchor",(x(average) < (width/2)) ? "start" : "end")
+
 
                 }
 
@@ -563,6 +571,22 @@ window.init = function init(el, config) {
                     .call(makeAnnotations2)
 
             }
+
+        },
+
+        preview: function() {
+
+            var temp = []
+
+            for (var i = 0; i < 14; i++) {
+                var obj = {}
+                obj["estimate"] = 100000
+                obj["id"] = i
+                temp.push(obj)
+            }
+
+            app.isolated = temp
+            app.prepare()
 
         },
 
