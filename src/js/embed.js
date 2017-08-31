@@ -47,7 +47,7 @@ window.init = function init(el, config) {
 
                 if (index < 7) {
 
-                    html += '<div class="question-container">';
+                     html += '<div class="question-container">';
 
                     html += '<div class="job-box"><div class="job-image" style="background-color: ' + item.background + ';background-image: url(' + config.assetPath + '/assets/imgs/' + item.img + ');"></div></div>';
 
@@ -55,13 +55,13 @@ window.init = function init(el, config) {
 
                     html += '<div class="question-group">';
 
-                    html += '<div class="question-box">How much do you think ' + item.label + ' <strong>actually</strong> ' + ((index==0)?'earns':'earn') +'?</div>';
+                    html += '<div class="question-box">How much do you think ' + item.label + ' <strong>actually</strong> ' + ((index==0)?'makes':'make') +' annually?</div>';
 
                     html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="100000000" pattern="[0-9]*"></div>';
 
                     html += '</div><div class="question-group">';
 
-                    html += '<div class="question-box">How much do you think ' + item.label + ' <strong>should</strong> earn annually?</div>';
+                    html += '<div class="question-box">How much do you think ' + item.label + ' <strong>should</strong> make annually?</div>';
 
                     html += '<div class="answer-box"><div class="label-container"><div class="label1">Input</div><div class="label2">Amount</div></div><div class="humanised_number"></div><input value class="amount-box" type="number" max="100000000" pattern="[0-9]*"></div>';
 
