@@ -283,7 +283,7 @@ export function init(el, context, config, mediator) {
         assemble: function() {
 
             // Request the data
-            var html = "<p>Here, you can see your <span class='magenta'>guess or suggestion</span> against the <span class='dark_purple'>actual average salary</span> for that job, based on on figures from the ATO for 2014-15. You can also see how it compares with other <span class='light_blue'>readers' responses</span>. Smaller circles indicate fewer responses, with all responses rounded to the nearest 1000.</p>";
+            var html = "<p class='quizSans'>Here, you can see your <span class='magenta'>guess or suggestion</span> against the <span class='dark_purple'>actual average salary</span> for that job, based on on figures from the ATO for 2014-15. You can also see how it compares with other <span class='light_blue'>readers' responses</span>. Smaller circles indicate fewer responses, with all responses rounded to the nearest 1000.</p>";
 
             var tally = 0;
 

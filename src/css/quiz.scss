@@ -1,6 +1,4 @@
 
-
-
 .quiz-container {
 
     box-sizing: border-box;
@@ -32,6 +30,11 @@
         font-size: 1.2rem;
     }
 
+    .quizSans {
+        font-size:1rem;
+        color:#767676;
+        font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+    }
 
     .question-container {
 
@@ -227,10 +230,18 @@
     }
 
     #viz-container  p {
+
         font-family: "Guardian Egyptian Web";
         font-weight: 400;
         line-height: 1.5rem;
         font-size: 1.2rem;
+
+    }
+
+    #viz-container p.quizSans {
+        font-size:1rem;
+        color:#767676;
+        font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
     }
 
     #loading-container {
@@ -264,6 +275,7 @@
         color: white;
         cursor: pointer;
         font-weight: 600;
+        margin-bottom:50px;
     }
 
 
