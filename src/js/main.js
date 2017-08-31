@@ -482,8 +482,15 @@ export function init(el, context, config, mediator) {
                     svg.append("text")
                         .attr("x", () => { return x(average) })
                         .attr("y", (height/3) + 60)
-                        .text("Response average: " + app.humanize(average))
-                        .attr("text-anchor","middle")
+                        .text("Response average: ")
+                        .attr("text-anchor",(x(average) < (width/2)) ? "start" : "end")
+
+                    svg.append("text")
+                        .attr("x", () => { return x(average) })
+                        .attr("y", (height/3) + 70)
+                        .text(app.humanize(average))
+                        .attr("text-anchor",(x(average) < (width/2)) ? "start" : "end")
+
 
                 }
 
